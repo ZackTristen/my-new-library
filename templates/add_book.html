@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Предложить книгу - Моя библиотека{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="text-center mb-4">Предложить свою книгу</h1>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('add_book') }}">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Автор</label>
+                        <input type="text" class="form-control" id="author" name="author" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="type" class="form-label">Тип</label>
+                            <select class="form-select" id="type" name="type">
+                                <option>Книга</option>
+                                <option>Журнал</option>
+                                <option>Статья</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="genre" class="form-label">Жанр</label>
+                            <input type="text" class="form-control" id="genre" name="genre">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image_url" class="form-label">Ссылка на обложку</label>
+                        <input type="text" class="form-control" id="image_url" name="image_url" placeholder="https://example.com/cover.jpg">
+                    </div>
+
+                    <!-- Скрытое поле для статуса. Предложенная книга будет иметь статус "На рассмотрении" -->
+                    <input type="hidden" id="status" name="status" value="На рассмотрении">
+
+                    <button type="submit" class="btn btn-primary w-100">Предложить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

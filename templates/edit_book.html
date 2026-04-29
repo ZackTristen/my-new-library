@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}Редактирование: {{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <h1 class="text-center mb-4">Редактировать книгу</h1>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('edit_book', item_id=book.id) }}">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ book.title }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Автор</label>
+                        <input type="text" class="form-control" id="author" name="author" value="{{ book.author or '' }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="type" class="form-label">Тип</label>
+                            <select class="form-select" id="type" name="type">
+                                <option value="Книга" {% if book.type == 'Книга' %}selected{% endif %}>Книга</option>
+                                <option value="Журнал" {% if book.type == 'Журнал' %}selected{% endif %}>Журнал</option>
+                                <option value="Статья" {% if book.type == 'Статья' %}selected{% endif %}>Статья</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="genre" class="form-label">Жанр</label>
+                            <input type="text" class="form-control" id="genre" name="genre" value="{{ book.genre or '' }}">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Статус</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="Доступна" {% if book.status == 'Доступна' %}selected{% endif %}>Доступна</option>
+                            <option value="Забронирована" {% if book.status == 'Забронирована' %}selected{% endif %}>Забронирована</option>
+                            <option value="На рассмотрении" {% if book.status == 'На рассмотрении' %}selected{% endif %}>На рассмотрении</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image_url" class="form-label">Ссылка на обложку</label>
+                        <input type="text" class="form-control" id="image_url" name="image_url" value="{{ book.image_url or '' }}" placeholder="https://example.com/cover.jpg">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Описание</label>
+                        <textarea class="form-control" id="description" name="description" rows="3">{{ book.description or '' }}</textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1">Сохранить</button>
+                        <a href="{{ url_for('book_details', item_id=book.id) }}" class="btn btn-outline-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

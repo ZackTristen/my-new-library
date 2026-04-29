@@ -1,0 +1,75 @@
+<mxfile host="app.diagrams.net" modified="2024-05-24T12:00:00.000Z" agent="Gemini-CLI" etag="1" version="24.4.2" type="device">
+  <diagram id="diagram-1" name="Page-1">
+    <mxGraphModel dx="1434" dy="758" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="comp-client" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;Клиент&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(Веб-браузер)&lt;/div&gt;" style="shape=component;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="160" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="comp-flask" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;Веб-приложение&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(Flask)&lt;/div&gt;" style="shape=component;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="160" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="comp-auth" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;Компонент&lt;/b&gt;&lt;/div&gt;&lt;div&gt;Аутентификации&lt;/div&gt;" style="shape=component;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="280" y="370" width="160" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="comp-templates" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;Компонент Шаблонов&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(Jinja2)&lt;/div&gt;" style="shape=component;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="520" y="40" width="160" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="comp-orm" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;Компонент ORM&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(SQLAlchemy)&lt;/div&gt;" style="shape=component;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="520" y="260" width="160" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="comp-db" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;База данных&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(SQLite)&lt;/div&gt;" style="shape=datastore;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="270" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="comp-static" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;b&gt;Статические Ресурсы&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(CSS, JS)&lt;/div&gt;" style="shape=folder;whiteSpace=wrap;html=1;align=center;verticalAlign=top;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="760" y="40" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Connectors -->
+        <mxCell id="edge-client-flask" value="&amp;lt;&amp;lt;uses&amp;gt;&amp;gt;&lt;br&gt;HTTP" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-client" target="comp-flask">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="280" as="sourcePoint" />
+            <mxPoint x="270" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-flask-templates" value="&amp;lt;&amp;lt;uses&amp;gt;&amp;gt;" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-flask" target="comp-templates">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="170" as="sourcePoint" />
+            <mxPoint x="510" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-flask-auth" value="&amp;lt;&amp;lt;delegates&amp;gt;&amp;gt;" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-flask" target="comp-auth">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="260" as="sourcePoint" />
+            <mxPoint x="360" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-flask-orm" value="&amp;lt;&amp;lt;uses&amp;gt;&amp;gt;" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-flask" target="comp-orm">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="230" as="sourcePoint" />
+            <mxPoint x="510" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-auth-orm" value="&amp;lt;&amp;lt;uses&amp;gt;&amp;gt;" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-auth" target="comp-orm">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="390" as="sourcePoint" />
+            <mxPoint x="510" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-templates-static" value="&amp;lt;&amp;lt;references&amp;gt;&amp;gt;" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-templates" target="comp-static">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="690" y="90" as="sourcePoint" />
+            <mxPoint x="750" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge-orm-db" value="&amp;lt;&amp;lt;uses&amp;gt;&amp;gt;&lt;br&gt;SQL" style="endArrow=classic;html=1;dashed=1;align=center;verticalAlign=middle;" edge="1" parent="1" source="comp-orm" target="comp-db">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="690" y="310" as="sourcePoint" />
+            <mxPoint x="750" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

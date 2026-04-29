@@ -1,0 +1,29 @@
+CREATE TABLE sqlite_sequence(name,seq);
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL
+);
+CREATE TABLE reservations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL,        -- ID книги/фильма
+    user_id INTEGER NOT NULL,        -- ID пользователя
+    reserved_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- Дата брони
+    status TEXT DEFAULT 'active',    -- 'active', 'completed', 'cancelled'
+    expires_at DATETIME,             -- До какой даты бронь действительна
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE "items" (
+	"id"	INTEGER,
+	"title"	TEXT NOT NULL,
+	"author"	TEXT,
+	"type"	TEXT,
+	"genre"	TEXT,
+	"status"	TEXT DEFAULT 'В наличии',
+	"image_url"	TEXT,
+	"description"	TEXT,
+	"created_at"	DATETIME DEFAULT CURRENT_TIMESTAMP,
+	"is_available"	BOOLEAN DEFAULT 1,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);

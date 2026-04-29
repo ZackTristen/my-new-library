@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+
+{% block title %}Мой каталог - Моя библиотека{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Мой каталог</h1>
+
+<!-- Навигация по вкладкам -->
+<div class="tabs mb-4"> {# Keep mb-4 for margin #}
+    <button class="tab active" data-tab="reserved">Забронировано (<span id="reserved-count">{{reserved_books|length}}</span>)</button>
+    <button class="tab" data-tab="suggested">Предложено (<span id="suggested-count">{{ suggested_books|length }}</span>)</button>
+    <button class="tab" data-tab="read">Прочитано (<span id="read-count">{{ read_books|length }}</span>)</button>
+</div>
+
+<!-- Содержимое вкладок -->
+<div class="tab-panels"> {# This wrapper can stay, or we can remove it and let tab-content be direct children of the card-body if desired #}
+    <!-- Вкладка Забронировано -->
+    <div class="tab-content active" id="reserved">
+        {% if reserved_books %}
+        <div class="list-group">
+            {% for res in reserved_books %}
+            {% if res.item %}
+            <div class="list-group-item">
+                <div class="list-group-item-content">
+                    <div class="list-group-item-info">
+                        <h5 class="mb-1 text-truncate-one-line">
+                            <a href="{{ url_for('book_details', item_id=res.item.id) }}" class="text-decoration-none">
+                                {{ res.item.title }}
+                            </a>
+                        </h5>
+                        <p class="mb-1 text-truncate-one-line">Автор: {{ res.item.author or 'Не указан' }}</p>
+                        <small>Забронировано: {{ res.user.username }}</small>
+                        <br>
+                        <small>Срок брони: {{ res.expires_at.strftime('%d.%m.%Y') if res.expires_at else 'N/A' }}</small>
+                        <br>
+                        <small>Дата брони: {{ res.reserved_at.strftime('%d.%m.%Y %H:%M') }}</small>
+                    </div>
+                    <div class="list-group-item-actions">
+                        <form method="POST" action="{{ url_for('delete_reservation', reservation_id=res.id) }}">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены, что хотите отменить это бронирование?');">
+                                <i class="bi bi-trash"></i> Отменить
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-light text-center">
+            У вас нет забронированных книг.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Вкладка Предложено -->
+    <div class="tab-content" id="suggested">
+        {% if suggested_books %}
+        <div class="list-group">
+            {% for book in suggested_books %}
+            <div class="list-group-item">
+                <div class="list-group-item-content">
+                    <div class="list-group-item-info">
+                        <h5 class="mb-1 text-truncate-one-line">
+                            <a href="{{ url_for('book_details', item_id=book.id) }}" class="text-decoration-none">
+                                {{ book.title }}
+                            </a>
+                        </h5>
+                        <p class="mb-1 text-truncate-one-line">Автор: {{ book.author or 'Не указан' }}</p>
+                        <small>Предложено: {{ book.created_at.strftime('%d.%m.%Y') }}</small>
+                    </div>
+                    <div class="list-group-item-actions">
+                        <span class="badge badge-info">{{ book.status }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-light text-center">
+            Вы еще не предлагали книг.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Вкладка Прочитано -->
+    <div class="tab-content" id="read">
+        {% if read_books %}
+        <div class="list-group">
+            {% for entry in read_books %}
+            {% if entry.item %}
+            <div class="list-group-item">
+                <div class="list-group-item-content">
+                    <div class="list-group-item-info">
+                        <h5 class="mb-1 text-truncate-one-line">
+                            <a href="{{ url_for('book_details', item_id=entry.item.id) }}" class="text-decoration-none">
+                                {{ entry.item.title }}
+                            </a>
+                        </h5>
+                        <p class="mb-1 text-truncate-one-line">Автор: {{ entry.item.author or 'Не указан' }}</p>
+                        <small>Прочитано: {{ entry.read_at.strftime('%d.%m.%Y') }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-light text-center">
+            Вы еще не отмечали книги как прочитанные.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
