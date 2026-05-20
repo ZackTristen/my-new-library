@@ -20,6 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
+login_manager.login_message = "" # Отключаем стандартное сообщение Flask-Login о необходимости входа
 
 # Регистрация Blueprint
 app.register_blueprint(auth_bp)
@@ -36,10 +37,10 @@ def index():
     genre = request.args.get('genre', '')
     status_filter = request.args.get('status', '')
 
-    # Convert search_query to lowercase for case-insensitive Python-side comparison
+    # Преобразуем search_query в нижний регистр для регистронезависимого сравнения на стороне Python
     lower_search_query = search_query.lower()
 
-    # Start with a base query
+    # Начинаем с базового запроса
     base_query = Item.query
 
     if status_filter == 'Прочитано':
@@ -50,7 +51,7 @@ def index():
             query_items = query_items.filter(Item.genre.ilike(f'%{genre}%'))
 
         read_history_entries = query_items.order_by(ReadHistory.read_at.desc()).all()
-        # Extract Item objects for Python-side filtering
+        # Извлекаем объекты Item для фильтрации на стороне Python
         initial_books = [entry.item for entry in read_history_entries]
 
     else:
@@ -63,16 +64,16 @@ def index():
         initial_books = base_query.order_by(Item.created_at.desc()).all()
 
 
-    # Apply search_query filtering in Python
+    # Применяем фильтрацию search_query в Python
     filtered_books = []
-    if lower_search_query: # Only filter if there's a search query
+    if lower_search_query: # Фильтруем только при наличии поискового запроса
         for book in initial_books:
             if lower_search_query in book.title.lower() or lower_search_query in book.author.lower():
                 filtered_books.append(book)
     else:
-        filtered_books = initial_books # If no search query, all initial books are valid
+        filtered_books = initial_books # Если нет поискового запроса, все исходные книги действительны
 
-    books = filtered_books # Use the Python-filtered list
+    books = filtered_books # Используем отфильтрованный список Python
 
 
     # Получаем ID прочитанных книг
@@ -298,7 +299,7 @@ def admin_users():
     search_query = request.args.get('search', '')
     role_filter = request.args.get('role', '')
     
-    # Convert search_query to lowercase for case-insensitive Python-side comparison
+    # Преобразуем search_query в нижний регистр для регистронезависимого сравнения на стороне Python
     lower_search_query = search_query.lower()
 
     query = User.query
@@ -308,7 +309,7 @@ def admin_users():
     
     initial_users = query.order_by(User.created_at.desc()).all()
 
-    # Apply search_query filtering in Python
+    # Применяем фильтрацию search_query в Python
     filtered_users = []
     if lower_search_query:
         for user in initial_users:
@@ -330,7 +331,7 @@ def admin_users():
         search_query=search_query,
         current_role=role_filter,
         suggested_books=suggested_books,
-        active_tab='users'  # Indicate that the 'users' tab should be active
+        active_tab='users'  # Указывает, что вкладка 'users' должна быть активной
     )
 
 
